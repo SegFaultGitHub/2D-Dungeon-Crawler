@@ -1,14 +1,96 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
 public abstract class Character : MonoBehaviour {
-    private List<OnCompute> OnComputeCallbacks = new();
-    private List<OnApply> OnApplyCallbacks = new();
-    private List<OnTake> OnTakeCallbacks = new();
-    private List<OnApplied> OnAppliedCallbacks = new();
+    private Animator Animator;
+    public Transform AttackZone { get; private set; }
+    public Dictionary<string, AnimationClip> Clips { get; private set; }
 
+    [SerializeField] private int MaxHP;
     [SerializeField] private int HP;
+    [SerializeField] private int Shield;
     [SerializeField] private int Poison;
+    [SerializeField] private int ActionPoints;
+    [SerializeField] private int CurrentActionPoints;
+    [SerializeField] protected List<Card> BaseDeck;
+    [SerializeField] protected List<Card> Deck;
+    [SerializeField] protected List<Card> Hand;
+    [SerializeField] protected List<Card> Discarded;
+    [SerializeField] private int InitialHandSize;
+
+    protected void Start() {
+        this.Animator = this.GetComponent<Animator>();
+        this.Clips = new();
+        foreach (AnimationClip clip in this.Animator.runtimeAnimatorController.animationClips) {
+            this.Clips[clip.name] = clip;
+        }
+        this.AttackZone = this.transform.Find("Attack zone");
+    }
+
+    public virtual void StartFight() {
+        this.Deck = new(this.BaseDeck);
+        this.Hand = new();
+        this.Discarded = new();
+        for (int i = 0; i < this.InitialHandSize; i++) {
+            this.DrawCard();
+        }
+    }
+
+    public virtual Card DrawCard() {
+        if (this.Deck.Count == 0) {
+            if (this.Discarded.Count == 0)
+                return null;
+            this.Deck = new(this.Discarded);
+            this.Discarded = new();
+        }
+
+        Card card = Utils.Sample(this.Deck);
+        card.Initialize();
+        this.Deck.Remove(card);
+        this.Hand.Add(card);
+        return card;
+    }
+
+    #region Movement
+    public LTDescr MoveTo(Vector3 to, float duration) {
+        return LeanTween.move(this.gameObject, to, duration)
+            .setOnStart(() => {
+                this.Animator.SetBool("Moving", true);
+                Vector3 scale = this.transform.localScale;
+                if (to.x > this.transform.position.x) {
+                    this.transform.localScale = new(Mathf.Abs(scale.x), scale.y, scale.z);
+                } else {
+                    this.transform.localScale = new(-Mathf.Abs(scale.x), scale.y, scale.z);
+                }
+            })
+            .setOnComplete(() => this.Animator.SetBool("Moving", false));
+    }
+
+    public void Attack() {
+        this.Animator.SetTrigger("Attack");
+    }
+
+    public void Attack(Character target, Action action) {
+        Vector3 scale = this.transform.localScale;
+        Vector3 position = this.transform.position;
+
+        LTSeq sequence = LeanTween.sequence();
+        sequence.append(this.MoveTo(target.AttackZone.position, .25f));
+        sequence.append(() => this.Attack());
+        sequence.append(this.Clips["Attack"].length * 0.8f);
+        sequence.append(action);
+        sequence.append(0.2f);
+        sequence.append(this.MoveTo(position, .25f));
+        sequence.append(() => this.transform.localScale = scale);
+    }
+    #endregion
+
+    #region Card methods
+    private readonly List<OnCompute> OnComputeCallbacks = new();
+    private readonly List<OnApply> OnApplyCallbacks = new();
+    private readonly List<OnTake> OnTakeCallbacks = new();
+    private readonly List<OnApplied> OnAppliedCallbacks = new();
 
     public struct CardEffectValues {
         public int Input;
@@ -18,10 +100,19 @@ public abstract class Character : MonoBehaviour {
         public int Applied;
     }
 
-    public void UseCard(Card card, Character target) {
+    public bool UseCard(Card card, Character target) {
         Debug.Log("-------");
-        Debug.Log("Card played: " + card.name);
-        card.Use(this, target);
+        Debug.Log("Card played: " + card.Name);
+        if (card.Cost > this.CurrentActionPoints)
+            return false;
+        bool played = card.Use(this, target);
+        if (!played)
+            return false;
+        this.Foo(CallbackType.ActionPoint, this, this, -card.Cost, 0);
+        this.Hand.Remove(card);
+        if (!card.RemoveAfterUsage)
+            this.Discarded.Add(card);
+        return played;
     }
 
     public void AddCallback(Callback callback) {
@@ -111,6 +202,12 @@ public abstract class Character : MonoBehaviour {
             case CallbackType.Heal:
                 to.AddHP(value);
                 break;
+            case CallbackType.ActionPoint:
+                to.AddActionPoint(value);
+                break;
+            case CallbackType.Shield:
+                to.AddShield(value);
+                break;
         }
         Debug.Log(to + " took " + value + " " + type);
         return value;
@@ -129,12 +226,20 @@ public abstract class Character : MonoBehaviour {
         if (value <= 0)
             return;
         this.HP += value;
+        if (this.HP > this.MaxHP)
+            this.HP = this.MaxHP;
     }
 
     public void RemoveHP(int value) {
         if (value <= 0)
             return;
+        int shieldDamage = Math.Min(this.Shield, value);
+        this.Shield -= shieldDamage;
+        value -= shieldDamage;
         this.HP -= value;
+
+        if (this.HP <= 0)
+            this.Animator.SetTrigger("Death");
     }
 
     public void AddPoison(int value) {
@@ -148,4 +253,13 @@ public abstract class Character : MonoBehaviour {
             return;
         this.Poison -= value;
     }
+
+    public void AddActionPoint(int value) {
+        this.CurrentActionPoints += value;
+    }
+
+    public void AddShield(int value) {
+        this.Shield += value;
+    }
+    #endregion
 }
