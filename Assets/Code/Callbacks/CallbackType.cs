@@ -1,5 +1,7 @@
 ﻿public enum CallbackType {
     Damage,
     Poison,
-    Heal
+    Heal,
+    ActionPoint,
+    Shield,
 }
