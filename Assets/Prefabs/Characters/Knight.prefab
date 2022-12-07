@@ -81,17 +81,25 @@ MonoBehaviour:
   - {fileID: -4811611367266922509, guid: 174102029837cff4b98f06649f62b40c, type: 3}
   - {fileID: -4811611367266922509, guid: 174102029837cff4b98f06649f62b40c, type: 3}
   - {fileID: -4811611367266922509, guid: 174102029837cff4b98f06649f62b40c, type: 3}
+  - {fileID: 5088769868413580494, guid: 3ca923d86312aa44ba11e1e42d0a6f60, type: 3}
+  - {fileID: -153280117567778301, guid: 3e03c4f3944ebc144a264adecef91bc6, type: 3}
   - {fileID: 9991121607928720, guid: 4877e54e475bfab4faa415118b80c593, type: 3}
-  - {fileID: 8943982915936462879, guid: 771ad0ed8a2027146906fd1cdd023f0c, type: 3}
-  - {fileID: 5088769868413580494, guid: 3ca923d86312aa44ba11e1e42d0a6f60, type: 3}
-  - {fileID: 5088769868413580494, guid: 3ca923d86312aa44ba11e1e42d0a6f60, type: 3}
-  - {fileID: -153280117567778301, guid: 3e03c4f3944ebc144a264adecef91bc6, type: 3}
-  - {fileID: -153280117567778301, guid: 3e03c4f3944ebc144a264adecef91bc6, type: 3}
+  - {fileID: 9991121607928720, guid: 4877e54e475bfab4faa415118b80c593, type: 3}
+  - {fileID: 8549603441117893423, guid: 7e5e06a6c2e3aab4582c1a6a985713a0, type: 3}
   Deck: []
   Hand: []
   Discarded: []
-  InitialHandSize: 5
-  CardGUI: {fileID: 8468694216597517669, guid: 03c47b9b7eb28da45bd2f8beb4dfd8a5, type: 3}
+  InitialHandSize: 3
+  CardsDrawnPerTurn: 1
+  MaxHandSize: 6
+  CardGUI: {fileID: 8968504251075109070, guid: 03c47b9b7eb28da45bd2f8beb4dfd8a5, type: 3}
+  PossibleLoot:
+  - {fileID: -153280117567778301, guid: 3e03c4f3944ebc144a264adecef91bc6, type: 3}
+  - {fileID: 5088769868413580494, guid: 3ca923d86312aa44ba11e1e42d0a6f60, type: 3}
+  - {fileID: 8943982915936462879, guid: 771ad0ed8a2027146906fd1cdd023f0c, type: 3}
+  - {fileID: -3844389910952746711, guid: 55fac620a38a35048a12b27ec765aa18, type: 3}
+  - {fileID: -1734320310799072049, guid: f78d3481518527e42b7fc6dd4883ba41, type: 3}
+  - {fileID: 4506705279249240705, guid: e6bbdde32064a8d4bbb7e01e66069978, type: 3}
 --- !u!1 &368215223396466952
 GameObject:
   m_ObjectHideFlags: 0

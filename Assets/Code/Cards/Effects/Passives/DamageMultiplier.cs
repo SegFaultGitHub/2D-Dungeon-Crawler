@@ -2,9 +2,7 @@
     private class DamageMultiplierCallback : OnCompute {
         private readonly float Ratio;
 
-        public DamageMultiplierCallback(int priority, float ratio) {
-            this.Priority = priority;
-            this.Type = CallbackType.Damage;
+        public DamageMultiplierCallback(CardEffect cardEffect, float ratio) : base(0, CallbackType.Damage, cardEffect.Effects, cardEffect.Description) {
             this.Ratio = ratio;
         }
 
@@ -13,17 +11,20 @@
         }
     }
 
-    private int Priority = 0;
     private float Ratio;
+    private int? Duration;
 
-    public DamageMultiplier(float ratio) {
+    public DamageMultiplier(float ratio, int? duration) {
         this.Ratio = ratio;
+        this.Duration = duration;
         this.Description = "Multiplies damage by " + this.GreenText(this.Ratio);
+        if (this.Duration != null)
+            this.Description += " (" + this.GreenText((int) this.Duration) + " turns)";
         this.Effects = new Effect[] { };
         this.EffectType = EffectType.Passive;
     }
 
     public override void Run(Character from, Character to) {
-        to.AddCallback(new DamageMultiplierCallback(this.Priority, this.Ratio));
+        to.AddCallback(new DamageMultiplierCallback(this, this.Ratio), this.Duration);
     }
 }

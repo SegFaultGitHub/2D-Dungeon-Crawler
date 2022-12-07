@@ -2,29 +2,30 @@
     private class LifeStealCallback : OnApplied {
         private readonly float Ratio;
 
-        public LifeStealCallback(int priority, float ratio) {
-            this.Priority = priority;
-            this.Type = CallbackType.Damage;
+        public LifeStealCallback(CardEffect cardEffect, float ratio) : base(0, CallbackType.Damage, cardEffect.Effects, cardEffect.Description) {
             this.Ratio = ratio;
         }
 
-        public override int Run(Character from, Character _to, int value) {
+        public override int Run(Character from, Character _, int value) {
             from.Foo(CallbackType.Heal, from, from, (int) (value * this.Ratio), this.Priority);
             return value;
         }
     }
 
-    private int Priority = 0;
     private float Ratio;
+    private int? Duration;
 
-    public LifeSteal(float ratio) {
+    public LifeSteal(float ratio, int? duration) {
         this.Ratio = ratio;
+        this.Duration = duration;
         this.Description = "Steals " + this.GreenText((int) (this.Ratio * 100)) + "% of the inflicted damage";
+        if (this.Duration != null)
+            this.Description += " (" + this.GreenText((int) this.Duration) + " turns)";
         this.Effects = new Effect[] { Effect.Heal };
         this.EffectType = EffectType.Passive;
     }
 
     public override void Run(Character from, Character to) {
-        to.AddCallback(new LifeStealCallback(this.Priority, this.Ratio));
+        to.AddCallback(new LifeStealCallback(this, this.Ratio), this.Duration);
     }
 }
