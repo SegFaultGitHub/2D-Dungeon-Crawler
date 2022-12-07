@@ -2,10 +2,8 @@
     private class PoisonOnDamageCallback : OnApply {
         private readonly int Poison;
 
-        public PoisonOnDamageCallback(int priority, int damage) {
-            this.Priority = priority;
-            this.Type = CallbackType.Damage;
-            this.Poison = damage;
+        public PoisonOnDamageCallback(CardEffect cardEffect, int poison) : base(3, CallbackType.Damage, cardEffect.Effects, cardEffect.Description) {
+            this.Poison = poison;
         }
 
         public override int Run(Character from, Character to, int value) {
@@ -14,17 +12,20 @@
         }
     }
 
-    private int Priority = 3;
     private int Poison;
+    private int? Duration;
 
-    public PoisonOnDamage(int poison) {
+    public PoisonOnDamage(int poison, int? duration) {
         this.Poison = poison;
+        this.Duration = duration;
         this.Description = "Applies " + this.GreenText(this.Poison) + " poison when inflicting damage";
+        if (this.Duration != null)
+            this.Description += " (" + this.GreenText((int) this.Duration) + " turns)";
         this.Effects = new Effect[] { Effect.Poison };
         this.EffectType = EffectType.Passive;
     }
 
     public override void Run(Character from, Character to) {
-        to.AddCallback(new PoisonOnDamageCallback(this.Priority, this.Poison));
+        to.AddCallback(new PoisonOnDamageCallback(this, this.Poison), this.Duration);
     }
 }

@@ -1058,9 +1058,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6156498138509270391}
-  - component: {fileID: 8468694216597517669}
+  - component: {fileID: 8968504251075109070}
   m_Layer: 0
-  m_Name: Card GUI
+  m_Name: Playable card GUI
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1088,7 +1088,7 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 550, y: 725}
   m_Pivot: {x: 0.5, y: 1}
---- !u!114 &8468694216597517669
+--- !u!114 &8968504251075109070
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1097,13 +1097,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 5745364606958371360}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ac753caeda87f814ba801fc42904d464, type: 3}
+  m_Script: {fileID: 11500000, guid: f6e59596e10546b4494628a9c1fc40b2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Hand: {fileID: 0}
-  EffectIcons:
-  - Effect: 0
-    Icon: {fileID: 0}
   Position: {x: 0, y: 0, z: 0}
   Rotation: {x: 0, y: 0, z: 0}
   CardColliderLayer:
