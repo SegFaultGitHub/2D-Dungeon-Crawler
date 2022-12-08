@@ -3,12 +3,13 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class Card : MonoBehaviour {
-    public List<Target> AllowedTarget;
-    public bool RemoveAfterUsage;
-    public int Cost;
+    [SerializeField] private List<Target> AllowedTarget;
+    [field:SerializeField] public bool RemoveAfterUsage { get; private set; }
+    [field:SerializeField] public int Cost { get; private set; }
+    [field:SerializeField] public Rarity Rarity { get; private set; }
+    [field:SerializeField] public string Name { get; private set; }
+
     protected List<CardEffect> CardEffects;
-    public Rarity Rarity;
-    public string Name;
 
     public bool Use(Character from, Character to) {
         Target target;
@@ -22,6 +23,10 @@ public class Card : MonoBehaviour {
         if (!this.AllowedTarget.Contains(target)) {
             return false;
         } else {
+            from.Hand.Remove(this);
+            if (!this.RemoveAfterUsage)
+                from.Discarded.Add(this);
+
             void runEffects() {
                 foreach (CardEffect cardEffect in this.CardEffects)
                     cardEffect.Run(from, to);

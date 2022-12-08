@@ -4,7 +4,7 @@ using UnityEngine.InputSystem;
 
 public class PlayableCardGUI : CardGUI, IPointerEnterHandler, IPointerExitHandler, IPointerDownHandler, IPointerUpHandler {
     private Player Player;
-    public Hand Hand { get; set; }
+    public HandGUI Hand { get; set; }
 
     [HideInInspector] public Vector3 Position, Rotation;
     private bool Dragging;

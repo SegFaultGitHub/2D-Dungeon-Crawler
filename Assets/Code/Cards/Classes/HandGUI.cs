@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Hand : MonoBehaviour {
+public class HandGUI : MonoBehaviour {
     [SerializeField] private List<PlayableCardGUI> Cards;
     [SerializeField] private Transform Center;
     [SerializeField] private float AngleOffset = 5;

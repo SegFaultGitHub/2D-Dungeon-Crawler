@@ -1,7 +1,7 @@
 ﻿public abstract class CardEffect {
-    public string Description;
-    public Effect[] Effects;
-    public EffectType EffectType;
+    public string Description { get; protected set; }
+    public Effect[] Effects { get; protected set; }
+    public EffectType EffectType { get; protected set; }
 
     public abstract void Run(Character from, Character to);
 

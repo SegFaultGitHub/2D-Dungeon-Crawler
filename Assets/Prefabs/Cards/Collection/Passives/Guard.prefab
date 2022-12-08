@@ -45,7 +45,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   AllowedTarget: 0000000002000000
-  RemoveAfterUsage: 1
-  Cost: 3
-  Rarity: 1
-  Name: Guard
+  <RemoveAfterUsage>k__BackingField: 1
+  <Cost>k__BackingField: 3
+  <Rarity>k__BackingField: 1
+  <Name>k__BackingField: Guard

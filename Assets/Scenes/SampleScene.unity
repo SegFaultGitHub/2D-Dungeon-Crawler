@@ -928,10 +928,10 @@ Camera:
   m_FocalLength: 50
   m_NormalizedViewPortRect:
     serializedVersion: 2
-    x: 0
-    y: 0
-    width: 1
-    height: 1
+    x: 0.0811542
+    y: 0.07742998
+    width: 0.8367899
+    height: 0.84349257
   near clip plane: 0.3
   far clip plane: 1000
   field of view: 34
@@ -5071,7 +5071,7 @@ GameObject:
   - component: {fileID: 1163043736}
   m_Layer: 5
   m_Name: Canvas
-  m_TagString: Untagged
+  m_TagString: Canvas
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -5206,7 +5206,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6904620518599510199, guid: f36d2630c913b604da6709b52ca70865, type: 3}
       propertyPath: m_Name
-      value: Hand
+      value: Hand GUI
       objectReference: {fileID: 0}
     - target: {fileID: 9150583477611167949, guid: f36d2630c913b604da6709b52ca70865, type: 3}
       propertyPath: m_RootOrder
@@ -10641,6 +10641,10 @@ PrefabInstance:
       propertyPath: Player
       value: 
       objectReference: {fileID: 1249133368}
+    - target: {fileID: 1637415457821938175, guid: 0dac33d4bd3ffa74d84d2e88ab38decf, type: 3}
+      propertyPath: LootManager
+      value: 
+      objectReference: {fileID: -6127101253460262598, guid: 11160599aa89f7a469e0f6c059ca9834, type: 3}
     - target: {fileID: 1637415457821938175, guid: 0dac33d4bd3ffa74d84d2e88ab38decf, type: 3}
       propertyPath: Enemies.Array.size
       value: 3

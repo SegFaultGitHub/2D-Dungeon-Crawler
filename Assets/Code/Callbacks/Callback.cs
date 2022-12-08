@@ -1,9 +1,9 @@
 ﻿public abstract class Callback {
     // Lower = more priority = executed last
-    public int Priority;
-    public CallbackType Type;
-    public Effect[] Effects;
-    public string Description;
+    public int Priority { get; private set; }
+    public CallbackType Type { get; private set; }
+    public Effect[] Effects { get; private set; }
+    public string Description { get; private set; }
 
     protected Callback(int priority, CallbackType type, Effect[] effects, string description) {
         this.Priority = priority;
