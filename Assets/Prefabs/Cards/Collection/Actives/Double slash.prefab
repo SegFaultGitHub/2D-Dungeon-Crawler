@@ -45,6 +45,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   AllowedTarget: 01000000
-  Cost: 2
-  Rarity: 0
-  Name: Double slash
+  <RemoveAfterUsage>k__BackingField: 0
+  <Cost>k__BackingField: 2
+  <Rarity>k__BackingField: 0
+  <Name>k__BackingField: Double slash

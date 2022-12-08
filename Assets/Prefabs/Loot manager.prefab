@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &9110450042127622371
+--- !u!1 &9211434616339047860
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8,22 +8,22 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 2225322279460081347}
-  - component: {fileID: -3844389910952746711}
+  - component: {fileID: 622502637223181635}
+  - component: {fileID: -6127101253460262598}
   m_Layer: 0
-  m_Name: Concentrate
+  m_Name: Loot manager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &2225322279460081347
+--- !u!4 &622502637223181635
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9110450042127622371}
+  m_GameObject: {fileID: 9211434616339047860}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
@@ -32,20 +32,16 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &-3844389910952746711
+--- !u!114 &-6127101253460262598
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9110450042127622371}
+  m_GameObject: {fileID: 9211434616339047860}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 04dd08c8ef6107b4fbec67f91f7dded3, type: 3}
+  m_Script: {fileID: 11500000, guid: 1bc9ac0b17caabf4f84a02ebc16db949, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  AllowedTarget: 0000000002000000
-  <RemoveAfterUsage>k__BackingField: 1
-  <Cost>k__BackingField: 3
-  <Rarity>k__BackingField: 2
-  <Name>k__BackingField: Concentrate
+  LootCardGUI: {fileID: 2471652227389030593, guid: 03c47b9b7eb28da45bd2f8beb4dfd8a5, type: 3}

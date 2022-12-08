@@ -45,7 +45,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   AllowedTarget: 01000000
-  RemoveAfterUsage: 1
-  Cost: 4
-  Rarity: 1
-  Name: Vampiric slice
+  <RemoveAfterUsage>k__BackingField: 0
+  <Cost>k__BackingField: 4
+  <Rarity>k__BackingField: 1
+  <Name>k__BackingField: Vampiric slice

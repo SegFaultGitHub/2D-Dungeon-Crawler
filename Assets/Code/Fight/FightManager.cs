@@ -1,38 +1,37 @@
+using System.Linq;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class FightManager : MonoBehaviour {
-    public int Turn;
-    public int TimelineIndex;
+    [field:SerializeField] public int Turn { get; private set; }
+    [SerializeField] private int TimelineIndex;
 
-    public Player Player;
-    public List<Enemy> Enemies;
-    public List<Character> Timeline;
+    [SerializeField] private Player Player;
+    [SerializeField] private List<Enemy> Enemies;
+    [SerializeField] private List<Character> Timeline;
+
+    [SerializeField] private LootManager LootManager;
+
+    [SerializeField] private bool Ended;
 
     public void StartFight() {
-        this.Player.StartFight(this);
-        foreach (Enemy enemy in this.Enemies)
-            enemy.StartFight(this);
+        this.Ended = false;
         this.Turn = 0;
         this.TimelineIndex = 0;
         this.Timeline.Add(this.Player);
         this.Timeline.AddRange(this.Enemies);
-
-        this.Player.FightStarts();
+        this.Player.FightStarts(this);
         foreach (Enemy enemy in this.Enemies)
-            enemy.FightStarts();
+            enemy.FightStarts(this);
 
         this.StartTurn();
     }
 
     public void EndFight() {
+        this.Ended = true;
         this.Player.FightEnds();
         foreach (Enemy enemy in this.Enemies)
             enemy.FightEnds();
-        this.Player.ExpireAllCallbacks();
-
-        Card loot = Utils.Sample(this.Player.PossibleLoot);
-        this.Player.AddToDeck(loot);
     }
 
     public void StartTurn() {
@@ -51,5 +50,25 @@ public class FightManager : MonoBehaviour {
     public void NextTurn() {
         this.EndTurn();
         this.StartTurn();
+    }
+
+    private void WinFight() {
+        this.EndFight();
+
+        LootManager lootManager = Instantiate(this.LootManager, GameObject.FindGameObjectWithTag("Canvas").transform);
+        lootManager.Generate(this.Player, 3);
+    }
+
+    private void LoseFight() {
+        this.EndFight();
+    }
+
+    public void CheckFightEnded() {
+        if (this.Ended)
+            return;
+        if (this.Player.Dead)
+            this.LoseFight();
+        else if (this.Enemies.All(enemy => enemy.Dead))
+            this.WinFight();
     }
 }

@@ -13,10 +13,12 @@ public abstract class Character : MonoBehaviour {
     [SerializeField] private int Poison;
     [SerializeField] private int ActionPoints;
     [SerializeField] private int CurrentActionPoints;
+    [field:SerializeField] public bool Dead { get; private set; }
+
     [SerializeField] protected List<Card> BaseDeck;
     [SerializeField] protected List<Card> Deck;
-    [SerializeField] protected List<Card> Hand;
-    [SerializeField] protected List<Card> Discarded;
+    [field:SerializeField] public List<Card> Hand { get; protected set; }
+    [field:SerializeField] public List<Card> Discarded { get; protected set; }
     [SerializeField] private int InitialHandSize;
     [SerializeField] private int CardsDrawnPerTurn;
     [SerializeField] private int MaxHandSize;
@@ -29,15 +31,7 @@ public abstract class Character : MonoBehaviour {
         foreach (AnimationClip clip in this.Animator.runtimeAnimatorController.animationClips)
             this.Clips[clip.name] = clip;
         this.AttackZone = this.transform.Find("Attack zone");
-    }
-
-    public virtual void StartFight(FightManager fightManager) {
-        this.FightManager = fightManager;
-        this.Deck = new(this.BaseDeck);
-        this.Hand = new();
-        this.Discarded = new();
-        for (int i = 0; i < this.InitialHandSize; i++)
-            this.DrawCard();
+        this.Dead = false;
     }
 
     public virtual Card DrawCard() {
@@ -66,9 +60,6 @@ public abstract class Character : MonoBehaviour {
         if (!played)
             return false;
         this.Foo(CallbackType.ActionPoint, this, this, -card.Cost, 0);
-        this.Hand.Remove(card);
-        if (!card.RemoveAfterUsage)
-            this.Discarded.Add(card);
         return played;
     }
 
@@ -267,14 +258,24 @@ public abstract class Character : MonoBehaviour {
     private readonly List<OnTurnStarts> OnTurnStartsCallbacks = new();
     private readonly List<OnTurnEnds> OnTurnEndsCallbacks = new();
 
-    public void FightStarts() {
+    public virtual void FightStarts(FightManager fightManager) {
+        this.FightManager = fightManager;
+        this.Deck = new(this.BaseDeck);
+        this.Hand = new();
+        this.Discarded = new();
+        for (int i = 0; i < this.InitialHandSize; i++)
+            this.DrawCard();
+
         foreach (OnFightStarts callback in this.OnFightStartsCallbacks)
             callback.Run(this);
     }
 
-    public void FightEnds() {
+    public virtual void FightEnds() {
         foreach (OnFightEnds callback in this.OnFightEndsCallbacks)
             callback.Run(this);
+
+        this.Hand = new();
+        this.ExpireAllCallbacks();
     }
 
     public void TurnStarts() {
@@ -313,7 +314,7 @@ public abstract class Character : MonoBehaviour {
         this.HP -= value;
 
         if (this.HP <= 0)
-            this.Animator.SetTrigger("Death");
+            this.Die();
     }
 
     public void AddPoison(int value) {
@@ -334,5 +335,11 @@ public abstract class Character : MonoBehaviour {
 
     public void AddShield(int value) {
         this.Shield += value;
+    }
+
+    private void Die() {
+        this.Dead = true;
+        this.Animator.SetTrigger("Death");
+        this.FightManager.CheckFightEnded();
     }
 }

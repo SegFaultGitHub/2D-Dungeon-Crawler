@@ -1,15 +1,8 @@
-using System;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
 public abstract class CardGUI : MonoBehaviour {
-    [Serializable]
-    private struct EffectIcon {
-        public Effect Effect;
-        public Sprite Icon;
-    }
-
     protected Camera Camera;
     public Card Card { get; set; }
     private static readonly Dictionary<Effect, string> EffectSpriteMapping = new() {
@@ -25,33 +18,33 @@ public abstract class CardGUI : MonoBehaviour {
 
         switch (this.Card.Rarity) {
             case Rarity.Common:
-                this.transform.Find("Box/Frame/Frame - Common").gameObject.SetActive(true);
-                this.transform.Find("Box/Frame/Frame - Rare").gameObject.SetActive(false);
-                this.transform.Find("Box/Frame/Frame - Legendary").gameObject.SetActive(false);
-                this.transform.Find("Box/Cost/Background - Common").gameObject.SetActive(true);
-                this.transform.Find("Box/Cost/Background - Rare").gameObject.SetActive(false);
-                this.transform.Find("Box/Cost/Background - Legendary").gameObject.SetActive(false);
+                this.transform.Find("Card - Box/Frame/Frame - Common").gameObject.SetActive(true);
+                this.transform.Find("Card - Box/Frame/Frame - Rare").gameObject.SetActive(false);
+                this.transform.Find("Card - Box/Frame/Frame - Legendary").gameObject.SetActive(false);
+                this.transform.Find("Card - Box/Cost/Background - Common").gameObject.SetActive(true);
+                this.transform.Find("Card - Box/Cost/Background - Rare").gameObject.SetActive(false);
+                this.transform.Find("Card - Box/Cost/Background - Legendary").gameObject.SetActive(false);
                 break;
             case Rarity.Rare:
-                this.transform.Find("Box/Frame/Frame - Common").gameObject.SetActive(false);
-                this.transform.Find("Box/Frame/Frame - Rare").gameObject.SetActive(true);
-                this.transform.Find("Box/Frame/Frame - Legendary").gameObject.SetActive(false);
-                this.transform.Find("Box/Cost/Background - Common").gameObject.SetActive(false);
-                this.transform.Find("Box/Cost/Background - Rare").gameObject.SetActive(true);
-                this.transform.Find("Box/Cost/Background - Legendary").gameObject.SetActive(false);
+                this.transform.Find("Card - Box/Frame/Frame - Common").gameObject.SetActive(false);
+                this.transform.Find("Card - Box/Frame/Frame - Rare").gameObject.SetActive(true);
+                this.transform.Find("Card - Box/Frame/Frame - Legendary").gameObject.SetActive(false);
+                this.transform.Find("Card - Box/Cost/Background - Common").gameObject.SetActive(false);
+                this.transform.Find("Card - Box/Cost/Background - Rare").gameObject.SetActive(true);
+                this.transform.Find("Card - Box/Cost/Background - Legendary").gameObject.SetActive(false);
                 break;
             case Rarity.Legendary:
-                this.transform.Find("Box/Frame/Frame - Common").gameObject.SetActive(false);
-                this.transform.Find("Box/Frame/Frame - Rare").gameObject.SetActive(false);
-                this.transform.Find("Box/Frame/Frame - Legendary").gameObject.SetActive(true);
-                this.transform.Find("Box/Cost/Background - Common").gameObject.SetActive(false);
-                this.transform.Find("Box/Cost/Background - Rare").gameObject.SetActive(false);
-                this.transform.Find("Box/Cost/Background - Legendary").gameObject.SetActive(true);
+                this.transform.Find("Card - Box/Frame/Frame - Common").gameObject.SetActive(false);
+                this.transform.Find("Card - Box/Frame/Frame - Rare").gameObject.SetActive(false);
+                this.transform.Find("Card - Box/Frame/Frame - Legendary").gameObject.SetActive(true);
+                this.transform.Find("Card - Box/Cost/Background - Common").gameObject.SetActive(false);
+                this.transform.Find("Card - Box/Cost/Background - Rare").gameObject.SetActive(false);
+                this.transform.Find("Card - Box/Cost/Background - Legendary").gameObject.SetActive(true);
                 break;
         }
 
-        this.transform.Find("Box/Name/Name").GetComponent<TMP_Text>().SetText(this.Card.Name);
-        this.transform.Find("Box/Description/Description").GetComponent<TMP_Text>().SetText(string.Join("\n\n", this.Card.Description(EffectSpriteMapping)));
-        this.transform.Find("Box/Cost/Cost").GetComponent<TMP_Text>().SetText(this.Card.Cost.ToString());
+        this.transform.Find("Card - Box/Name/Name").GetComponent<TMP_Text>().SetText(this.Card.Name);
+        this.transform.Find("Card - Box/Description/Description").GetComponent<TMP_Text>().SetText(string.Join("\n\n", this.Card.Description(EffectSpriteMapping)));
+        this.transform.Find("Card - Box/Cost/Cost").GetComponent<TMP_Text>().SetText(this.Card.Cost.ToString());
     }
 }

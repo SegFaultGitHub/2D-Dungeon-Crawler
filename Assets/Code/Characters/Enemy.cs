@@ -1,2 +1,1 @@
-public class Enemy : Character {
-}
+public class Enemy : Character { }

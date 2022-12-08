@@ -45,7 +45,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   AllowedTarget: 00000000
-  RemoveAfterUsage: 0
-  Cost: 1
-  Rarity: 0
-  Name: Draw
+  <RemoveAfterUsage>k__BackingField: 0
+  <Cost>k__BackingField: 1
+  <Rarity>k__BackingField: 0
+  <Name>k__BackingField: Draw

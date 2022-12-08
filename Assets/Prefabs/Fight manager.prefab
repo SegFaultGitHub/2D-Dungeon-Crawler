@@ -44,8 +44,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 82f7fd8e6f10ba64fb97f2bd0b9a3f3f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Turn: 0
+  <Turn>k__BackingField: 0
   TimelineIndex: 0
   Player: {fileID: 0}
   Enemies: []
   Timeline: []
+  LootManager: {fileID: -6127101253460262598, guid: 11160599aa89f7a469e0f6c059ca9834, type: 3}
