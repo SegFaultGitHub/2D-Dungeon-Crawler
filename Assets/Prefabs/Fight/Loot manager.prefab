@@ -45,3 +45,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   LootCardGUI: {fileID: 2471652227389030593, guid: 03c47b9b7eb28da45bd2f8beb4dfd8a5, type: 3}
+  LootArtifactGUI: {fileID: 8558113593705836892, guid: 34fe049266cf59349a664d9ba8a34718, type: 3}

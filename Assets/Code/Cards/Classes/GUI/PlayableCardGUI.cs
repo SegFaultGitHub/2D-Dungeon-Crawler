@@ -13,10 +13,12 @@ public class PlayableCardGUI : CardGUI, IPointerEnterHandler, IPointerExitHandle
 
     [SerializeField] private LayerMask CardColliderLayer;
     private Character Target;
+    private Camera Camera;
 
-    public override void Initialize() {
+    public override void Initialize(Player player) {
+        this.Camera = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Camera>();
         this.Player = GameObject.FindGameObjectWithTag("Player").GetComponent<Player>();
-        base.Initialize();
+        base.Initialize(player);
     }
 
     private void FixedUpdate() {

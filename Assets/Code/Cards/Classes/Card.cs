@@ -7,9 +7,10 @@ public class Card : MonoBehaviour {
     [field:SerializeField] public bool RemoveAfterUsage { get; private set; }
     [field:SerializeField] public int Cost { get; private set; }
     [field:SerializeField] public Rarity Rarity { get; private set; }
-    [field:SerializeField] public string Name { get; private set; }
-
+    public string Name { get; protected set; }
     protected List<CardEffect> CardEffects;
+
+    [field: SerializeField] public CardGUI CardGUI { get; set; }
 
     public bool Use(Character from, Character to) {
         Target target;
@@ -50,15 +51,17 @@ public class Card : MonoBehaviour {
                 yield return effect;
     }
 
-    public IEnumerable<string> Description(Dictionary<Effect, string> mapping) {
+    public IEnumerable<string> Description(Player player) {
         foreach (CardEffect cardEffect in this.CardEffects) {
+            cardEffect.UpdateDescription(player);
             string description = "";
             if (cardEffect.EffectType == EffectType.Passive)
                 description += "Passive\n";
-            foreach (Effect effect in cardEffect.Effects)
-                description += mapping[effect];
-            if (cardEffect.Effects.Length > 0)
+            if (cardEffect.Effects.Length > 0) {
+                foreach (Effect effect in cardEffect.Effects)
+                    description += GUIConstants.EffectSpriteMapping[effect];
                 description += " ";
+            }
             description += cardEffect.Description;
             yield return description;
         }

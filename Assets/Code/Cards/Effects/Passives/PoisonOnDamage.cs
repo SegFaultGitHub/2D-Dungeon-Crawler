@@ -12,20 +12,30 @@
         }
     }
 
-    private int Poison;
+    private int Value;
     private int? Duration;
 
     public PoisonOnDamage(int poison, int? duration) {
-        this.Poison = poison;
+        this.Value = poison;
         this.Duration = duration;
-        this.Description = "Applies " + this.GreenText(this.Poison) + " poison when inflicting damage";
-        if (this.Duration != null)
-            this.Description += " (" + this.GreenText((int) this.Duration) + " turns)";
         this.Effects = new Effect[] { Effect.Poison };
         this.EffectType = EffectType.Passive;
     }
 
+    public override void UpdateDescription(Player player) {
+        int value = player.Compute(CallbackType.Poison, player, null, this.Value, 3);
+        if (value > this.Value) {
+            this.Description = string.Format("Applies {0} ({1}) poison when inflicting damage", this.GreenText(value), this.BlueText(this.Value));
+        } else if (value < this.Value) {
+            this.Description = string.Format("Applies {0} ({1}) poison when inflicting damage", this.RedText(value), this.BlueText(this.Value));
+        } else {
+            this.Description = string.Format("Applies {0} Hpoison when inflicting damage", this.BlueText(value));
+        }
+        if (this.Duration != null)
+            this.Description += string.Format(" ({0} turns)", this.BlueText((int) this.Duration));
+    }
+
     public override void Run(Character from, Character to) {
-        to.AddCallback(new PoisonOnDamageCallback(this, this.Poison), this.Duration);
+        to.AddCallback(new PoisonOnDamageCallback(this, this.Value), this.Duration);
     }
 }

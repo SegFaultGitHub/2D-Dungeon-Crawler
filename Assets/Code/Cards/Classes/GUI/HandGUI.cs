@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -28,14 +29,21 @@ public class HandGUI : MonoBehaviour {
         Destroy(card.gameObject);
     }
 
-    public void AddCard(PlayableCardGUI card) {
+    public void AddCard(Player player, PlayableCardGUI card) {
         card.transform.SetParent(this.transform.Find("Cards"));
         card.transform.localScale = new(.5f, .5f, .5f);
         card.transform.localPosition = this.Center.localPosition + 0.95f * (this.Center.localScale.x / 2f) * Vector3.up;
         card.Hand = this;
-        card.Initialize();
+        card.Initialize(player);
         this.Cards.Add(card);
         this.RearrangeCards();
+    }
+
+    public void UpdateCardDescriptions(Player player) {
+        PlayableCardGUI[] cards = this.GetComponentsInChildren<PlayableCardGUI>();
+        for (int i = 0; i < cards.Length; i++) {
+            cards[i].Initialize(player);
+        }
     }
 
     public void RearrangeCards() {

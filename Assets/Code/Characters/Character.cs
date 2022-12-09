@@ -63,6 +63,14 @@ public abstract class Character : MonoBehaviour {
         return played;
     }
 
+    public void AddToDeck(Card card) {
+        this.BaseDeck.Add(card);
+    }
+
+    public void Equip(Artifact artifact) {
+        artifact.Equip(this);
+    }
+
     #region Movement
     public LTDescr MoveTo(Vector3 to, float duration) {
         return LeanTween.move(this.gameObject, to, duration)
@@ -117,6 +125,8 @@ public abstract class Character : MonoBehaviour {
         if (callback is OnCompute onCompute) {
             this.OnComputeCallbacks.Add(onCompute);
             this.OnComputeCallbacks.Sort((c1, c2) => c1.Priority - c2.Priority);
+            if (this is Player)
+                (this as Player).UpdateCardDescriptions();
         } else if (callback is OnApply onApply) {
             this.OnApplyCallbacks.Add(onApply);
             this.OnApplyCallbacks.Sort((c1, c2) => c1.Priority - c2.Priority);
@@ -153,9 +163,11 @@ public abstract class Character : MonoBehaviour {
     }
 
     public void RemoveCallback(Callback callback) {
-        if (callback is OnCompute onCompute)
+        if (callback is OnCompute onCompute) {
             this.OnComputeCallbacks.Remove(onCompute);
-        else if (callback is OnApply onApply)
+            if (this is Player)
+                (this as Player).UpdateCardDescriptions();
+        } else if (callback is OnApply onApply)
             this.OnApplyCallbacks.Remove(onApply);
         else if (callback is OnTake onTake)
             this.OnTakeCallbacks.Remove(onTake);
@@ -265,6 +277,7 @@ public abstract class Character : MonoBehaviour {
         this.Discarded = new();
         for (int i = 0; i < this.InitialHandSize; i++)
             this.DrawCard();
+        this.CurrentActionPoints = this.ActionPoints;
 
         foreach (OnFightStarts callback in this.OnFightStartsCallbacks)
             callback.Run(this);

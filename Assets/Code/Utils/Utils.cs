@@ -3,22 +3,7 @@ using UnityEngine;
 using Random = UnityEngine.Random;
 
 public static class Utils {
-    public static T RandomRange<T>(List<(float, T)> o) {
-        float total = 0;
-        foreach ((float value, T _) in o) {
-            total += value;
-        }
-        float choice = Random.Range(0, total);
-        float index = 0;
-        foreach ((float value, T item) in o) {
-            index += value;
-            if (choice <= index)
-                return item;
-        }
-
-        return o[^1].Item2;
-    }
-
+    #region Simple sample
     public static T Sample<T>(List<T> list) {
         if (list.Count == 0) {
             Debug.LogError("Trying to sample an empty list");
@@ -43,6 +28,46 @@ public static class Utils {
         }
         return result;
     }
+    #endregion
+
+    #region Weighted sample
+    private static WeightDistribution<T> GetRandomItemInDistribution<T>(List<WeightDistribution<T>> list) {
+        float total = 0;
+        foreach (WeightDistribution<T> weightDistribution in list) {
+            total += weightDistribution.Weight;
+        }
+        float choice = Random.Range(0, total);
+        float index = 0;
+        foreach (WeightDistribution<T> weightDistribution in list) {
+            index += weightDistribution.Weight;
+            if (choice <= index)
+                return weightDistribution;
+        }
+
+        return list[^1];
+    }
+
+    public static T Sample<T>(List<WeightDistribution<T>> list) {
+        return Sample(list, 1)[0];
+    }
+
+    public static List<T> Sample<T>(List<WeightDistribution<T>> list, int n) {
+        if (list.Count == 0) {
+            Debug.LogError("Trying to sample an empty list");
+            return default;
+        }
+        List<WeightDistribution<T>> clone = new();
+        clone.AddRange(list);
+
+        List<T> result = new();
+        while (result.Count < n && clone.Count > 0) {
+            WeightDistribution<T> element = GetRandomItemInDistribution(clone);
+            clone.Remove(element);
+            result.Add(element.Obj);
+        }
+        return result;
+    }
+    #endregion
 
     public static bool Rate(float rate) {
         return Random.Range(0, 1f) < rate;

@@ -3,9 +3,12 @@
 
     public DrawCards(int value) {
         this.Value = value;
-        this.Description = "Draws " + this.GreenText(this.Value) + " card" + (this.Value > 1 ? "s" : "");
         this.Effects = new Effect[] { };
         this.EffectType = EffectType.Active;
+    }
+
+    public override void UpdateDescription(Player player) {
+        this.Description = string.Format("Draws {0} card{1}", this.BlueText(this.Value), this.Value > 1 ? "s" : "");
     }
 
     public override void Run(Character from, Character to) {
