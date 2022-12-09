@@ -35,7 +35,7 @@ Transform:
   - {fileID: 9150709766676705751}
   - {fileID: 6402682445902098082}
   - {fileID: 3952210133983702178}
-  - {fileID: 477548272708470813}
+  - {fileID: 8714469765137925952}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -77,6 +77,7 @@ MonoBehaviour:
   Poison: 0
   ActionPoints: 5
   CurrentActionPoints: 5
+  <Dead>k__BackingField: 0
   BaseDeck:
   - {fileID: -4811611367266922509, guid: 174102029837cff4b98f06649f62b40c, type: 3}
   - {fileID: -4811611367266922509, guid: 174102029837cff4b98f06649f62b40c, type: 3}
@@ -87,21 +88,14 @@ MonoBehaviour:
   - {fileID: -153280117567778301, guid: 3e03c4f3944ebc144a264adecef91bc6, type: 3}
   - {fileID: 8549603441117893423, guid: 7e5e06a6c2e3aab4582c1a6a985713a0, type: 3}
   Deck: []
-  Hand: []
-  Discarded: []
+  <Hand>k__BackingField: []
+  <Discarded>k__BackingField: []
   InitialHandSize: 3
   CardsDrawnPerTurn: 1
   MaxHandSize: 6
   PlayableCardGUI: {fileID: 8968504251075109070, guid: 96eaa425a37aebc4f879e63d406a455a, type: 3}
-  <PossibleLoot>k__BackingField:
-  - {fileID: 8549603441117893423, guid: 7e5e06a6c2e3aab4582c1a6a985713a0, type: 3}
-  - {fileID: -153280117567778301, guid: 3e03c4f3944ebc144a264adecef91bc6, type: 3}
-  - {fileID: 5088769868413580494, guid: 3ca923d86312aa44ba11e1e42d0a6f60, type: 3}
-  - {fileID: 8943982915936462879, guid: 771ad0ed8a2027146906fd1cdd023f0c, type: 3}
-  - {fileID: 9991121607928720, guid: 4877e54e475bfab4faa415118b80c593, type: 3}
-  - {fileID: -3844389910952746711, guid: 55fac620a38a35048a12b27ec765aa18, type: 3}
-  - {fileID: -1734320310799072049, guid: f78d3481518527e42b7fc6dd4883ba41, type: 3}
-  - {fileID: 4506705279249240705, guid: e6bbdde32064a8d4bbb7e01e66069978, type: 3}
+  <PossibleCardLoot>k__BackingField: []
+  <PossibleArtifactLoot>k__BackingField: []
 --- !u!1 &368215223396466952
 GameObject:
   m_ObjectHideFlags: 0
@@ -477,6 +471,37 @@ Transform:
   m_Father: {fileID: 912334965525614747}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &3394976210108746553
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 8714469765137925952}
+  m_Layer: 0
+  m_Name: Artifacts
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &8714469765137925952
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3394976210108746553}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 912334965525614747}
+  m_RootOrder: 5
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &3488269055574211397
 GameObject:
   m_ObjectHideFlags: 0
@@ -592,37 +617,6 @@ Transform:
   - {fileID: 3869507164982168396}
   m_Father: {fileID: 912334965525614747}
   m_RootOrder: 1
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &6585244378469017465
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 477548272708470813}
-  m_Layer: 6
-  m_Name: Deck
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &477548272708470813
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6585244378469017465}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 912334965525614747}
-  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &8159485765516654979
 GameObject:

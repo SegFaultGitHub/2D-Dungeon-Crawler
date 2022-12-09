@@ -1,22 +1,22 @@
 ﻿using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class LootCardGUI : CardGUI, IPointerEnterHandler, IPointerExitHandler, IPointerDownHandler {
+public class LootArtifactGUI : ArtifactGUI, IPointerEnterHandler, IPointerExitHandler, IPointerDownHandler {
     [SerializeField] private LayerMask CardColliderLayer;
 
     private LootManager LootManager;
-    [SerializeField] private Vector3 InitialScale;
+    private Vector3 InitialScale;
 
     public bool Locked { private get; set; }
-    public bool Picked { get;  private set; }
+    public bool Picked { get; private set; }
 
-    public void Initialize(LootManager lootManager) {
+    public void Initialize(LootManager lootManager, Player player) {
         this.Locked = false;
         this.LootManager = lootManager;
         this.InitialScale = this.transform.localScale;
         this.transform.localScale *= 0;
         LeanTween.scale(this.gameObject, this.InitialScale, .3f).setEaseOutBack();
-        base.Initialize();
+        base.Initialize(player);
     }
 
     public LTDescr Disappear() {

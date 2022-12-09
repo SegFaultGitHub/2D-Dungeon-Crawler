@@ -17,11 +17,14 @@ public class DamageUp : CardEffect {
     public DamageUp(int value, int? duration) {
         this.Value = value;
         this.Duration = duration;
-        this.Description = "Adds " + this.GreenText(this.Value) + " damage";
-        if (this.Duration != null)
-            this.Description += " (" + this.GreenText((int) this.Duration) + " turns)";
-        this.Effects = new Effect[] { };
+        this.Effects = new Effect[] { Effect.Damage };
         this.EffectType = EffectType.Passive;
+    }
+
+    public override void UpdateDescription(Player player) {
+        this.Description = string.Format("Adds {0} damage", this.BlueText(this.Value));
+        if (this.Duration != null)
+            this.Description += string.Format(" ({0} turns)", this.BlueText((int) this.Duration));
     }
 
     public override void Run(Character from, Character to) {

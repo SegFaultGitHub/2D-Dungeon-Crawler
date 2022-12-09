@@ -11,6 +11,7 @@ public class FightManager : MonoBehaviour {
     [SerializeField] private List<Character> Timeline;
 
     [SerializeField] private LootManager LootManager;
+    [SerializeField] private List<WeightDistribution<LootType>> LootDistribution;
 
     [SerializeField] private bool Ended;
 
@@ -27,7 +28,7 @@ public class FightManager : MonoBehaviour {
         this.StartTurn();
     }
 
-    public void EndFight() {
+    private void EndFight() {
         this.Ended = true;
         this.Player.FightEnds();
         foreach (Enemy enemy in this.Enemies)
@@ -52,14 +53,15 @@ public class FightManager : MonoBehaviour {
         this.StartTurn();
     }
 
-    private void WinFight() {
+    public void WinFight() {
         this.EndFight();
 
         LootManager lootManager = Instantiate(this.LootManager, GameObject.FindGameObjectWithTag("Canvas").transform);
+        lootManager.LootDistribution = this.LootDistribution;
         lootManager.Generate(this.Player, 3);
     }
 
-    private void LoseFight() {
+    public void LoseFight() {
         this.EndFight();
     }
 

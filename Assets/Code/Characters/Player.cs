@@ -1,10 +1,12 @@
 using System.Collections.Generic;
 using UnityEngine;
+using System.Linq;
 
 public class Player : Character {
     private HandGUI HandGUI;
     [SerializeField] private PlayableCardGUI PlayableCardGUI;
-    [field:SerializeField] public List<Card> PossibleLoot { get; private set; }
+    [field:SerializeField] public List<WeightDistribution<Card>> CardLootTable { get; private set; }
+    [field:SerializeField] public List<WeightDistribution<Artifact>> ArtifactLootTable { get; private set; }
 
     private new void Start() {
         base.Start();
@@ -26,12 +28,18 @@ public class Player : Character {
         if (card == null)
             return null;
         PlayableCardGUI cardGUI = Instantiate(this.PlayableCardGUI);
+        cardGUI.name = card.Name + this.Hand.Count;
+        card.CardGUI = cardGUI;
         cardGUI.Card = card;
-        this.HandGUI.AddCard(cardGUI);
+        this.HandGUI.AddCard(this, cardGUI);
         return card;
     }
 
-    public void AddToDeck(Card card) {
-        this.BaseDeck.Add(card);
+    public void UpdateCardDescriptions() {
+        this.HandGUI.UpdateCardDescriptions(this);
+    }
+
+    public void RemoveArtifactFromLootTable(Artifact artifact) {
+        this.ArtifactLootTable.RemoveAt(this.ArtifactLootTable.FindIndex(weightDistribution => weightDistribution.Obj == artifact));
     }
 }

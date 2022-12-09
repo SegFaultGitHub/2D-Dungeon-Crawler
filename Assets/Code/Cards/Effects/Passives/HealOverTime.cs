@@ -17,11 +17,21 @@
     public HealOverTime(int value, int? duration) {
         this.Value = value;
         this.Duration = duration;
-        this.Description = "Recovers " + this.GreenText(this.Value) + " HP at the beginning of each turn";
-        if (this.Duration != null)
-            this.Description += " (" + this.GreenText((int) this.Duration) + " turns)";
         this.Effects = new Effect[] { Effect.Heal };
         this.EffectType = EffectType.Passive;
+    }
+
+    public override void UpdateDescription(Player player) {
+        int value = player.Compute(CallbackType.Heal, player, null, this.Value, 1);
+        if (value > this.Value) {
+            this.Description = string.Format("Recovers {0} ({1}) HP at the beginning of each turn", this.GreenText(value), this.BlueText(this.Value));
+        } else if (value < this.Value) {
+            this.Description = string.Format("Recovers {0} ({1}) HP at the beginning of each turn", this.RedText(value), this.BlueText(this.Value));
+        } else {
+            this.Description = string.Format("Recovers {0} HP at the beginning of each turn", this.BlueText(value));
+        }
+        if (this.Duration != null)
+            this.Description += string.Format(" ({0} turns)", this.BlueText((int) this.Duration));
     }
 
     public override void Run(Character from, Character to) {

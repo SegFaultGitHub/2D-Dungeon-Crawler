@@ -18,11 +18,14 @@
     public LifeSteal(float ratio, int? duration) {
         this.Ratio = ratio;
         this.Duration = duration;
-        this.Description = "Steals " + this.GreenText((int) (this.Ratio * 100)) + "% of the inflicted damage";
-        if (this.Duration != null)
-            this.Description += " (" + this.GreenText((int) this.Duration) + " turns)";
         this.Effects = new Effect[] { Effect.Heal };
         this.EffectType = EffectType.Passive;
+    }
+
+    public override void UpdateDescription(Player player) {
+        this.Description = string.Format("Steals {0}% of the inflicted damage", this.GreenText((int) (this.Ratio * 100)));
+        if (this.Duration != null)
+            this.Description += string.Format(" ({0} turns)", this.BlueText((int) this.Duration));
     }
 
     public override void Run(Character from, Character to) {
