@@ -71,12 +71,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fc2184998b47cbb468a282ea75843e8a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  MaxHP: 20
-  HP: 20
-  Shield: 0
-  Poison: 0
-  ActionPoints: 5
-  CurrentActionPoints: 5
+  <MaxHP>k__BackingField: 20
+  <HP>k__BackingField: 20
+  <Shield>k__BackingField: 0
+  <Poison>k__BackingField: 0
+  <ActionPoints>k__BackingField: 6
+  <CurrentActionPoints>k__BackingField: 0
   <Dead>k__BackingField: 0
   BaseDeck:
   - {fileID: -4811611367266922509, guid: 174102029837cff4b98f06649f62b40c, type: 3}
@@ -94,8 +94,8 @@ MonoBehaviour:
   CardsDrawnPerTurn: 1
   MaxHandSize: 6
   PlayableCardGUI: {fileID: 8968504251075109070, guid: 96eaa425a37aebc4f879e63d406a455a, type: 3}
-  <PossibleCardLoot>k__BackingField: []
-  <PossibleArtifactLoot>k__BackingField: []
+  <CardLootTable>k__BackingField: []
+  <ArtifactLootTable>k__BackingField: []
 --- !u!1 &368215223396466952
 GameObject:
   m_ObjectHideFlags: 0

@@ -26,4 +26,8 @@ public class TestButton : MonoBehaviour {
         artifact.Initialize();
         artifact.Equip(this.Player);
     }
+
+    public void TestEnemyAI() {
+        //this.FightManager.Enemies[0].MakeChoice();
+    }
 }

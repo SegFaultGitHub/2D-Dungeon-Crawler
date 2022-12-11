@@ -1,4 +1,7 @@
-﻿public class Shield : CardEffect {
+﻿using System.Collections.Generic;
+using static Enemy;
+
+public class Shield : CardEffect {
     private int Value;
 
     public Shield(int value) {
@@ -20,5 +23,13 @@
 
     public override void Run(Character from, Character to) {
         from.Foo(CallbackType.Shield, from, to, this.Value, short.MaxValue);
+    }
+
+    public override List<CardSimulationEffect> Simulate(Character from, Character to) {
+        return new() {
+            new CardSimulationEffectShield {
+                Value = from.Compute(CallbackType.Shield, from, to, this.Value, short.MaxValue)
+            }
+        };
     }
 }

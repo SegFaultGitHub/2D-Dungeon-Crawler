@@ -6,8 +6,8 @@ public class FightManager : MonoBehaviour {
     [field:SerializeField] public int Turn { get; private set; }
     [SerializeField] private int TimelineIndex;
 
-    [SerializeField] private Player Player;
-    [SerializeField] private List<Enemy> Enemies;
+    [field:SerializeField] public Player Player { get; private set; }
+    [field:SerializeField] public List<Enemy> Enemies { get; private set; }
     [SerializeField] private List<Character> Timeline;
 
     [SerializeField] private LootManager LootManager;
@@ -36,11 +36,15 @@ public class FightManager : MonoBehaviour {
     }
 
     public void StartTurn() {
-        this.Timeline[this.TimelineIndex].TurnStarts();
+        if (this.Timeline[this.TimelineIndex].Dead)
+            this.NextTurn();
+        else
+            this.Timeline[this.TimelineIndex].TurnStarts();
     }
 
     public void EndTurn() {
-        this.Timeline[this.TimelineIndex].TurnEnds();
+        if (!this.Timeline[this.TimelineIndex].Dead)
+            this.Timeline[this.TimelineIndex].TurnEnds();
         this.TimelineIndex++;
         if (this.TimelineIndex >= this.Timeline.Count) {
             this.TimelineIndex = 0;
@@ -49,6 +53,8 @@ public class FightManager : MonoBehaviour {
     }
 
     public void NextTurn() {
+        if (this.Ended)
+            return;
         this.EndTurn();
         this.StartTurn();
     }

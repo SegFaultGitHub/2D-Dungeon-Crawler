@@ -44,8 +44,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1e3764b45441e91468367b0c59ee35db, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  AllowedTarget: 01000000
+  <AllowedTarget>k__BackingField: 01000000
   <RemoveAfterUsage>k__BackingField: 0
   <Cost>k__BackingField: 4
   <Rarity>k__BackingField: 1
-  <Name>k__BackingField: Vampiric slice
+  <Animation>k__BackingField: Attack
+  <MoveToTarget>k__BackingField: 1

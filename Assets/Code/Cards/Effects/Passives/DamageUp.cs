@@ -1,3 +1,7 @@
+using System.Collections.Generic;
+using System.Linq;
+using static Enemy;
+
 public class DamageUp : CardEffect {
     private class DamageUpCallback : OnCompute {
         private readonly int Value;
@@ -29,5 +33,11 @@ public class DamageUp : CardEffect {
 
     public override void Run(Character from, Character to) {
         to.AddCallback(new DamageUpCallback(this, this.Value), this.Duration);
+    }
+
+    public override List<CardSimulationEffect> Simulate(Character from, Character to) {
+        return new() {
+            new CardSimulationEffectMaxPriority { Value = 2 }
+        };
     }
 }

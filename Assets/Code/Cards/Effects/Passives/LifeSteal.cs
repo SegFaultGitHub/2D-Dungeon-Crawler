@@ -1,4 +1,7 @@
-﻿public class LifeSteal : CardEffect {
+﻿using System.Collections.Generic;
+using static Enemy;
+
+public class LifeSteal : CardEffect {
     private class LifeStealCallback : OnApplied {
         private readonly float Ratio;
 
@@ -30,5 +33,9 @@
 
     public override void Run(Character from, Character to) {
         to.AddCallback(new LifeStealCallback(this, this.Ratio), this.Duration);
+    }
+
+    public override List<CardSimulationEffect> Simulate(Character from, Character to) {
+        return new();
     }
 }

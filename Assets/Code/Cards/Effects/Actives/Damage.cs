@@ -1,4 +1,7 @@
-﻿public class Damage : CardEffect {
+﻿using System.Collections.Generic;
+using static Enemy;
+
+public class Damage : CardEffect {
     private int Value;
 
     public Damage(int value) {
@@ -20,5 +23,13 @@
 
     public override void Run(Character from, Character to) {
         from.Foo(CallbackType.Damage, from, to, this.Value, short.MaxValue);
+    }
+
+    public override List<CardSimulationEffect> Simulate(Character from, Character to) {
+        return new() {
+            new CardSimulationEffectDamage {
+                Value = from.Compute(CallbackType.Damage, from, to, this.Value, short.MaxValue)
+            }
+        };
     }
 }

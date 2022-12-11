@@ -1,4 +1,7 @@
-﻿public class HealOverTime : CardEffect {
+﻿using System.Collections.Generic;
+using static Enemy;
+
+public class HealOverTime : CardEffect {
     private class HealOverTimeCallback : OnTurnStarts {
         private readonly int Value;
 
@@ -36,5 +39,13 @@
 
     public override void Run(Character from, Character to) {
         to.AddCallback(new HealOverTimeCallback(this, this.Value), this.Duration);
+    }
+
+    public override List<CardSimulationEffect> Simulate(Character from, Character to) {
+        return new() {
+            new CardSimulationEffectHeal {
+                Value = from.Compute(CallbackType.Heal, from, to, this.Value, short.MaxValue) * (int) this.Duration
+            }
+        };
     }
 }

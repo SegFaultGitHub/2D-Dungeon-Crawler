@@ -1,4 +1,7 @@
-﻿public class DamageOnPoison : CardEffect {
+﻿using System.Collections.Generic;
+using static Enemy;
+
+public class DamageOnPoison : CardEffect {
     private class DamageOnPoisonCallback : OnApply {
         private readonly int Damage;
 
@@ -37,5 +40,13 @@
 
     public override void Run(Character from, Character to) {
         to.AddCallback(new DamageOnPoisonCallback(this, this.Value), this.Duration);
+    }
+
+    public override List<CardSimulationEffect> Simulate(Character from, Character to) {
+        return new() {
+            new CardSimulationEffectDamage {
+                Value = from.Compute(CallbackType.Damage, from, to, this.Value, 3) * 2 * (int) this.Duration
+            },
+        };
     }
 }

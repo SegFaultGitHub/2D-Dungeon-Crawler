@@ -1,5 +1,7 @@
 ﻿public enum Target {
     Self,
-    Enemy,
-    Ally
+    AliveEnemy,
+    DeadEnemy,
+    AliveAlly,
+    DeadAlly
 }

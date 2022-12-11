@@ -1,4 +1,6 @@
-﻿using static Character;
+﻿using System.Collections.Generic;
+using static Character;
+using static Enemy;
 
 public class DamageStealingLife : CardEffect {
     private int Value;
@@ -25,5 +27,16 @@ public class DamageStealingLife : CardEffect {
     public override void Run(Character from, Character to) {
         CardEffectValues foo = from.Foo(CallbackType.Damage, from, to, this.Value, short.MaxValue);
         from.Foo(CallbackType.Heal, from, from, (int) (foo.Applied * this.Ratio), 0);
+    }
+
+    public override List<CardSimulationEffect> Simulate(Character from, Character to) {
+        return new() {
+            new CardSimulationEffectDamage {
+                Value = from.Compute(CallbackType.Damage, from, to, this.Value, short.MaxValue)
+            },
+            new CardSimulationEffectHeal {
+                Value = from.Compute(CallbackType.Heal, from, from, (int) (this.Value * this.Ratio), short.MaxValue)
+            },
+        };
     }
 }

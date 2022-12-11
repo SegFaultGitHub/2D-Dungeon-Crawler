@@ -1,4 +1,7 @@
-﻿public class DrawCards : CardEffect {
+﻿using System.Collections.Generic;
+using static Enemy;
+
+public class DrawCards : CardEffect {
     private int Value;
 
     public DrawCards(int value) {
@@ -15,5 +18,9 @@
         for (int i = 0; i < this.Value; i++) {
             to.DrawCard();
         }
+    }
+
+    public override List<CardSimulationEffect> Simulate(Character from, Character to) {
+        return new();
     }
 }

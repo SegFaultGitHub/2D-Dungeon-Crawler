@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -7,23 +8,30 @@ public abstract class Character : MonoBehaviour {
     public Transform AttackZone { get; private set; }
     public Dictionary<string, AnimationClip> Clips { get; private set; }
 
-    [SerializeField] private int MaxHP;
-    [SerializeField] private int HP;
-    [SerializeField] private int Shield;
-    [SerializeField] private int Poison;
-    [SerializeField] private int ActionPoints;
-    [SerializeField] private int CurrentActionPoints;
-    [field:SerializeField] public bool Dead { get; private set; }
+    [field: SerializeField] public int MaxHP { get; private set; }
+    [field: SerializeField] public int HP { get; private set; }
+    public int MissingHP { get => this.MaxHP - this.HP; }
+    [field: SerializeField] public int Shield { get; private set; }
+    [field: SerializeField] public int Poison { get; private set; }
+    [field: SerializeField] public int ActionPoints { get; private set; }
+    [field: SerializeField] public int CurrentActionPoints { get; private set; }
+    [field: SerializeField] public bool Dead { get; private set; }
 
     [SerializeField] protected List<Card> BaseDeck;
     [SerializeField] protected List<Card> Deck;
-    [field:SerializeField] public List<Card> Hand { get; protected set; }
-    [field:SerializeField] public List<Card> Discarded { get; protected set; }
+    [field: SerializeField] public List<Card> Hand { get; protected set; }
+    [field: SerializeField] public List<Card> Discarded { get; protected set; }
     [SerializeField] private int InitialHandSize;
     [SerializeField] private int CardsDrawnPerTurn;
     [SerializeField] private int MaxHandSize;
 
-    private FightManager FightManager;
+    protected FightManager FightManager;
+
+    #region Asynchronous card utilization
+    private Card Card;
+    private Character Target;
+    public bool FightLocked { get; private set; }
+    #endregion
 
     protected void Start() {
         this.Animator = this.GetComponent<Animator>();
@@ -34,6 +42,7 @@ public abstract class Character : MonoBehaviour {
         this.Dead = false;
     }
 
+    #region Card methods
     public virtual Card DrawCard() {
         if (this.Hand.Count >= this.MaxHandSize)
             return null;
@@ -52,20 +61,53 @@ public abstract class Character : MonoBehaviour {
     }
 
     public bool UseCard(Card card, Character target) {
-        Debug.Log("-------");
-        Debug.Log("Card played: " + card.Name);
-        if (card.Cost > this.CurrentActionPoints)
+        if (!card.CanUse(this, target) || this.FightLocked)
             return false;
-        bool played = card.Use(this, target);
-        if (!played)
-            return false;
-        this.Foo(CallbackType.ActionPoint, this, this, -card.Cost, 0);
-        return played;
+
+        Debug.Log(string.Format("{0} played played {1}", this.name, card.Name));
+        this.AsynchronousUseCard(card, target);
+        return true;
+    }
+
+    public void AsynchronousUseCard(Card card, Character target) {
+        this.FightLocked = true;
+        this.Card = card;
+        this.Target = target;
+
+        LTSeq sequence = LeanTween.sequence();
+
+        Vector3 scale = this.transform.localScale;
+        Vector3 position = this.transform.position;
+
+        if (card.MoveToTarget)
+            sequence.append(this.MoveTo(target.AttackZone.position, .4f));
+
+        if (card.Animation != null && card.Animation != "") {
+            sequence.append(() => this.Animator.SetTrigger(card.Animation));
+            sequence.append(this.Clips[card.Animation].length + 0.2f);
+        } else {
+            sequence.append(() => this.UseAsynchronousCard());
+        }
+
+
+        if (card.MoveToTarget) {
+            sequence.append(this.MoveTo(position, .4f));
+            sequence.append(() => this.transform.localScale = scale);
+        }
+
+        sequence.append(0.2f);
+        sequence.append(() => this.FightLocked = false);
+    }
+
+    public void UseAsynchronousCard() {
+        this.Card.Use(this, this.Target);
+        this.Foo(CallbackType.ActionPoint, this, this, -this.Card.Cost, 0);
     }
 
     public void AddToDeck(Card card) {
         this.BaseDeck.Add(card);
     }
+    #endregion
 
     public void Equip(Artifact artifact) {
         artifact.Equip(this);
@@ -291,7 +333,7 @@ public abstract class Character : MonoBehaviour {
         this.ExpireAllCallbacks();
     }
 
-    public void TurnStarts() {
+    public virtual void TurnStarts() {
         foreach (OnTurnStarts callback in this.OnTurnStartsCallbacks)
             callback.Run(this);
         this.ExpireCallbacks();
@@ -300,12 +342,14 @@ public abstract class Character : MonoBehaviour {
         }
         if (this.Poison != 0)
             this.Take(CallbackType.Damage, this, this, this.Poison, 0);
+        this.FightLocked = false;
     }
 
     public void TurnEnds() {
         this.CurrentActionPoints = this.ActionPoints;
         foreach (OnTurnEnds callback in this.OnTurnEndsCallbacks)
             callback.Run(this);
+        this.FightLocked = true;
 
     }
     #endregion
@@ -353,6 +397,7 @@ public abstract class Character : MonoBehaviour {
     private void Die() {
         this.Dead = true;
         this.Animator.SetTrigger("Death");
+        this.ExpireAllCallbacks();
         this.FightManager.CheckFightEnded();
     }
 }
