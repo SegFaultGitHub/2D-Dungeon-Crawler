@@ -1,4 +1,7 @@
-﻿public class ShieldOverTime : CardEffect {
+﻿using System.Collections.Generic;
+using static Enemy;
+
+public class ShieldOverTime : CardEffect {
     private class ShieldOverTimeCallback : OnTurnEnds {
         private readonly int Value;
 
@@ -36,5 +39,13 @@
 
     public override void Run(Character from, Character to) {
         to.AddCallback(new ShieldOverTimeCallback(this, this.Value), this.Duration);
+    }
+
+    public override List<CardSimulationEffect> Simulate(Character from, Character to) {
+        return new() {
+            new CardSimulationEffectShield {
+                Value = from.Compute(CallbackType.Shield, from, to, this.Value, short.MaxValue) * (int) this.Duration
+            }
+        };
     }
 }

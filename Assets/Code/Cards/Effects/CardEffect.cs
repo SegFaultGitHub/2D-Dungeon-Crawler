@@ -1,4 +1,7 @@
-﻿public abstract class CardEffect {
+﻿using System.Collections.Generic;
+using static Enemy;
+
+public abstract class CardEffect {
     public string Description { get; protected set; }
     public Effect[] Effects { get; protected set; }
     public EffectType EffectType { get; protected set; }
@@ -7,6 +10,9 @@
 
     public abstract void UpdateDescription(Player player);
 
+    public abstract List<CardSimulationEffect> Simulate(Character from, Character to);
+
+    #region String methods
     protected string GreenText(string input) {
         return "<color=#005500>" + input + "</color>";
     }
@@ -42,4 +48,5 @@
     protected string BlueText(float input) {
         return this.BlueText(input.ToString());
     }
+    #endregion
 }

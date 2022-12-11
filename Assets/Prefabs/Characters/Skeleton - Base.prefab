@@ -48,7 +48,7 @@ Animator:
   m_GameObject: {fileID: 362083095321247130}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 899ffb891a7970c45b6497417d1c8f12, type: 2}
+  m_Controller: {fileID: 9100000, guid: 4582fc318f8fa3f48985ccdccd874d4e, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -70,8 +70,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 630cf54f4479e6745b73db409e13a740, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  HP: 0
-  Poison: 0
+  <MaxHP>k__BackingField: 8
+  <HP>k__BackingField: 8
+  <Shield>k__BackingField: 0
+  <Poison>k__BackingField: 0
+  <ActionPoints>k__BackingField: 3
+  <CurrentActionPoints>k__BackingField: 0
+  <Dead>k__BackingField: 0
+  BaseDeck:
+  - {fileID: 9991121607928720, guid: 4877e54e475bfab4faa415118b80c593, type: 3}
+  - {fileID: -153280117567778301, guid: 3e03c4f3944ebc144a264adecef91bc6, type: 3}
+  - {fileID: -4811611367266922509, guid: 174102029837cff4b98f06649f62b40c, type: 3}
+  - {fileID: -4811611367266922509, guid: 174102029837cff4b98f06649f62b40c, type: 3}
+  Deck: []
+  <Hand>k__BackingField: []
+  <Discarded>k__BackingField: []
+  InitialHandSize: 3
+  CardsDrawnPerTurn: 1
+  MaxHandSize: 5
 --- !u!1 &368215223396466952
 GameObject:
   m_ObjectHideFlags: 0

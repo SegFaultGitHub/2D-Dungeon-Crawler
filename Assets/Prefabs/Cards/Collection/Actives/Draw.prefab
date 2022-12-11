@@ -44,8 +44,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 914098ad92604c4498529c6af90963bd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  AllowedTarget: 00000000
+  <AllowedTarget>k__BackingField: 00000000
   <RemoveAfterUsage>k__BackingField: 0
   <Cost>k__BackingField: 1
   <Rarity>k__BackingField: 0
-  <Name>k__BackingField: Draw
+  <Animation>k__BackingField: RaiseWeapon
+  <MoveToTarget>k__BackingField: 0

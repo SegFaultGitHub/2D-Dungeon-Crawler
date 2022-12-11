@@ -29,7 +29,6 @@ public class Player : Character {
             return null;
         PlayableCardGUI cardGUI = Instantiate(this.PlayableCardGUI);
         cardGUI.name = card.Name + this.Hand.Count;
-        card.CardGUI = cardGUI;
         cardGUI.Card = card;
         this.HandGUI.AddCard(this, cardGUI);
         return card;

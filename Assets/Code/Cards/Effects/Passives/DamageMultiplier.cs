@@ -1,4 +1,7 @@
-﻿public class DamageMultiplier : CardEffect {
+﻿using System.Collections.Generic;
+using static Enemy;
+
+public class DamageMultiplier : CardEffect {
     private class DamageMultiplierCallback : OnCompute {
         private readonly float Ratio;
 
@@ -29,5 +32,9 @@
 
     public override void Run(Character from, Character to) {
         to.AddCallback(new DamageMultiplierCallback(this, this.Ratio), this.Duration);
+    }
+
+    public override List<CardSimulationEffect> Simulate(Character from, Character to) {
+        return new();
     }
 }

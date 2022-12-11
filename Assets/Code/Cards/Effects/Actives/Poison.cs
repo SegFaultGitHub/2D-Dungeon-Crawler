@@ -1,4 +1,7 @@
-﻿public class Poison : CardEffect {
+﻿using System.Collections.Generic;
+using static Enemy;
+
+public class Poison : CardEffect {
     private int Value;
 
     public Poison(int value) {
@@ -21,5 +24,13 @@
 
     public override void Run(Character from, Character to) {
         from.Foo(CallbackType.Poison, from, to, this.Value, short.MaxValue);
+    }
+
+    public override List<CardSimulationEffect> Simulate(Character from, Character to) {
+        return new() {
+            new CardSimulationEffectPoison {
+                Value = from.Compute(CallbackType.Poison, from, to, this.Value, short.MaxValue)
+            }
+        };
     }
 }

@@ -77,13 +77,15 @@ public class PlayableCardGUI : CardGUI, IPointerEnterHandler, IPointerExitHandle
     }
 
     public void OnPointerDown(PointerEventData eventData) {
-        if (this.Hand.Dragging || this.Locked || !this.MouseOver)
+        if (this.Hand.Dragging || this.Locked || !this.MouseOver || this.Player.FightLocked)
             return;
         this.Dragging = true;
         this.Hand.Dragging = true;
     }
 
     public void OnPointerUp(PointerEventData eventData) {
+        if (this.Player.FightLocked)
+            return;
         this.Dragging = false;
         this.Hand.Dragging = false;
         if (this.Target != null) {
